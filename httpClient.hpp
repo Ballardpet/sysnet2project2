@@ -25,9 +25,10 @@
 class httpClient{
     private:
         int tcp_client_socket;
-        
+        void handle_server(int tcp_server_socket); //gott check this too
+        void send_request(int tcp_server_socket, const std::string& status, const std::string& content, const std::string& content_type = "text/plain"); // not 100% sure if this is right
     public:
-        httpClient();
+        httpClient(/*Some shit here maybe*/);
         bool start(); // ?
         void run(); //?
         ~httpClient();
