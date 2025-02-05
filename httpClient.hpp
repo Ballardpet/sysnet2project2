@@ -16,4 +16,22 @@
     // client program
 
     // Be verbose !!!
-    
+
+#ifndef HTTPSERVER_HPP
+#define HTTPSERVER_HPP
+
+#include <string>
+
+class httpClient{
+    private:
+        int tcp_client_socket;
+        
+    public:
+        httpClient();
+        bool start(); // ?
+        void run(); //?
+        ~httpClient();
+};
+
+
+#endif
