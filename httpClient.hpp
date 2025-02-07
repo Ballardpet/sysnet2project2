@@ -17,18 +17,26 @@
 
     // Be verbose !!!
 
-#ifndef HTTPSERVER_HPP
-#define HTTPSERVER_HPP
+#ifndef HTTPCLIENT_HPP
+#define HTTPCLIENT_HPP
 
 #include <string>
+#include <stdio.h> //Standard library
+#include <stdlib.h> //Standard library
+#include <sys/socket.h> //API and definitions for the sockets
+#include <sys/types.h> //more definitions
+#include <netinet/in.h> //Structures to store address information
+#include <unistd.h> //Standard library for system calls
+#include <iostream>
 
 class httpClient{
     private:
+        std::string port;
+        struct sockaddr_in tcp_server_address; //declaring a structure for the address
         int tcp_client_socket;
-        void handle_server(int tcp_server_socket); //gott check this too
         void send_request(int tcp_server_socket, const std::string& status, const std::string& content, const std::string& content_type = "text/plain"); // not 100% sure if this is right
     public:
-        httpClient(/*Some shit here maybe*/);
+        httpClient(const std::string& port);
         bool start(); // ?
         void run(); //?
         ~httpClient();
