@@ -7,7 +7,7 @@ serverMain.o: serverMain.cpp
 httpServer.o: httpServer.hpp httpServer.cpp
 	g++ -g -Wall -c httpServer.hpp httpServer.cpp
 
-
+	
 
 clientMain: clientMain.o httpClient.o
 	g++ -g -Wall clientMain.o httpClient.o -o clientMain

@@ -1,6 +1,6 @@
 #include "httpClient.hpp"
 
-httpClient::httpClient(const std::string& port) : port(port){} // HERE HERE
+httpClient::httpClient(const std::string& port) : port(port){}
 
 bool httpClient::start(){
     
@@ -8,7 +8,6 @@ bool httpClient::start(){
     tcp_client_socket = socket(AF_INET, SOCK_STREAM, 0); //Calling the socketfunction - args: socket domain, socket stream type, TCP protocol (default)
     if (tcp_client_socket < 0) {
         std::cerr << "Failed to create client socket." << std::endl;
-        ///printf("Failed to create client socket. \n");
         return false;
     }
 
@@ -21,7 +20,6 @@ bool httpClient::start(){
     int connection_status = connect(tcp_client_socket, (struct sockaddr *) &tcp_server_address, sizeof(tcp_server_address)); //params: which socket, cast for address to the specific structure type, size of address
     if (connection_status == -1){   //return value of 0 means all okay, -1 means a problem
         std::cerr << "Problem connecting to the socket. \n" << std::endl;
-        //printf(" Problem connecting to the socket! Sorry!! \n");
         return false;
     }
 
@@ -38,19 +36,6 @@ void httpClient::run(){
     }
 
     close(tcp_client_socket);
-
-    /*
-    // Creation of the client socket
-    int tcp_server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (tcp_server_socket < 0) {
-        std::cerr << "Failed to create socket" << std::endl;
-        printf("Failed to create socket");
-    }
-
-    else{
-        handle_server(tcp_server_socket);
-    }
-    */
 }
 
 //Destructor
