@@ -23,13 +23,47 @@ bool httpClient::start(){
         return false;
     }
 
-    std::cerr << "Connected to the socket! \n" << std::endl;
+    std::cerr << "Connected to the socket! \n";
+
+    run();
+    
     return true;
 }
 
 void httpClient::run(){
 
-    while(true){
+    // disconnects before it gets here
+
+    bool keepLooping = true;
+    //std::cout << tcp_server_address;
+    //int server_socket_fd = int(tcp_server_address);
+    //std::cout << server_socket_fd << std:: endl;
+    //std::cout << connect(tcp_client_socket, (struct sockaddr *) &tcp_server_address, sizeof(tcp_server_address));
+
+    while(keepLooping){
+        int server_socket_fd = accept(tcp_client_socket, nullptr, nullptr); // why is this -1. Why the fuck isn't this working
+        std::string thing;
+        std::string close; // this dictates the while true
+        std::cout << "Enter 'img.jpg' to get the image\n";
+        std::cin >> thing;
+        std::cout << "Enter 'y' to close connection. Anything else to continue\n";
+        std::cin >> close;
+
+        std::string request = " GET /" + thing + "HTTP/1.1\r\n";
+        request += "Host: localhost:" + port + "\r\n";
+        
+        if (close == "y"){
+            request += "Connection: close\r\n"; // send this to close;
+            keepLooping = false;
+        }
+        else{
+            request += "Connection: keep-alive\r\n";; // send this to continue
+        }
+        request += "\r\n";
+
+        //std::ostringstream request;
+        send(server_socket_fd, request.c_str(), request.size(), 0); // for some reason server_socket_fd is wrong
+
         char tcp_server_response[256];
         recv(tcp_client_socket, &tcp_server_response, sizeof(tcp_server_response), 0);
         printf("\n\n Server says: %s \n", tcp_server_response);
