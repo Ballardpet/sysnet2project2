@@ -49,7 +49,8 @@ void httpClient::run(){
         std::cout << "Enter 'y' to close connection. Anything else to continue\n";
         std::cin >> close;
 
-        std::string request = " GET /" + thing + "HTTP/1.1\r\n";
+        std::string request;
+        request = "GET /" + thing + " HTTP/1.1\r\n";
         request += "Host: localhost:" + port + "\r\n";
         
         if (close == "y"){
@@ -62,7 +63,7 @@ void httpClient::run(){
         request += "\r\n";
 
         //std::ostringstream request;
-        send(tcp_client_socket/*server_socket_fd*/, request.c_str(), request.size(), 0); // for some reason server_socket_fd is wrong
+        send(tcp_client_socket, request.c_str(), request.size()+1, 0);
 
         char tcp_server_response[256];
         recv(tcp_client_socket, &tcp_server_response, sizeof(tcp_server_response), 0);

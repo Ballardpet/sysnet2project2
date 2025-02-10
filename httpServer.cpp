@@ -66,7 +66,7 @@ void httpServer::handle_client(int client_socket_fd) {
     char buffer[1024]; //Buffer to store incoming request data from the client
     read(client_socket_fd, buffer, sizeof(buffer)); //Read data from the client socket
 
-    //std::cout << buffer;
+    std::cout << buffer;
 
     std::istringstream request(buffer); //Parsing the incoming request using stringstream
     std::string method, path, version;
