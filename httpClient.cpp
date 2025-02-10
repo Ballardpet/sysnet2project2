@@ -40,17 +40,25 @@ void httpClient::run(){
     //std::cout << server_socket_fd << std:: endl;
     //std::cout << connect(tcp_client_socket, (struct sockaddr *) &tcp_server_address, sizeof(tcp_server_address));
 
-    while(keepLooping){
-        //int server_socket_fd = accept(tcp_client_socket, nullptr, nullptr); // why is this -1. Why the fuck isn't this working
-        std::string thing;
-        std::string close; // this dictates the while true
-        std::cout << "Enter 'img.jpg' to get the image\n";
+    while(keepLooping){ // stops after 3 loops?
+        std::string thing; // what the user is trying to access
+        std::string close; // checks to see if the user wants to close connection
+        std::cout << "Enter 'i' to get the image. 'h' for index *delete this*\n";
         std::cin >> thing;
         std::cout << "Enter 'y' to close connection. Anything else to continue\n";
         std::cin >> close;
 
         std::string request;
-        request = "GET /" + thing + " HTTP/1.1\r\n";
+        if (thing == "i"){ 
+            request = "GET /img.jpg HTTP/1.1\r\n";
+        }
+        else if (thing == "h") { 
+            request = "GET / HTTP/1.1\r\n";
+        }
+        else{
+            request = "GET /" + thing +" HTTP/1.1\r\n";
+        }
+
         request += "Host: localhost:" + port + "\r\n";
         
         if (close == "y"){
@@ -62,7 +70,6 @@ void httpClient::run(){
         }
         request += "\r\n";
 
-        //std::ostringstream request;
         send(tcp_client_socket, request.c_str(), request.size()+1, 0);
 
         char tcp_server_response[256];
