@@ -41,7 +41,7 @@ void httpClient::run(){
     //std::cout << connect(tcp_client_socket, (struct sockaddr *) &tcp_server_address, sizeof(tcp_server_address));
 
     while(keepLooping){
-        int server_socket_fd = accept(tcp_client_socket, nullptr, nullptr); // why is this -1. Why the fuck isn't this working
+        //int server_socket_fd = accept(tcp_client_socket, nullptr, nullptr); // why is this -1. Why the fuck isn't this working
         std::string thing;
         std::string close; // this dictates the while true
         std::cout << "Enter 'img.jpg' to get the image\n";
@@ -62,7 +62,7 @@ void httpClient::run(){
         request += "\r\n";
 
         //std::ostringstream request;
-        send(server_socket_fd, request.c_str(), request.size(), 0); // for some reason server_socket_fd is wrong
+        send(tcp_client_socket/*server_socket_fd*/, request.c_str(), request.size(), 0); // for some reason server_socket_fd is wrong
 
         char tcp_server_response[256];
         recv(tcp_client_socket, &tcp_server_response, sizeof(tcp_server_response), 0);
