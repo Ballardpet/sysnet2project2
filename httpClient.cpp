@@ -42,28 +42,14 @@ std::string request_str = request.str();
 send(client_socket, request_str.c_str(), request_str.size(), 0);
 
 char buffer[BUFFER_SIZE];
-    //bool header_parsed = false;
-    //std::string response;
-
-/**
- * MULTIPLE THINGS:
- * still output to terminal
- * have a variable file type
- * outputfilename = "OutputFile" + last three of request string
- */
 
 
-// 127.0.0.1
-// 60069
-//recv(client_socket, buffer, sizeof(buffer), 0); //////////////
-//printf("\n\nServer says: %s \n", buffer); ///////// //////////////////////////////
 
 
+// Sets a standard name for an output file to prevent override when downloading existing files
+std::string outputFileName = "OutputFile" + filename.substr(filename.length() - 4, 4);
 
 // Open a file to save the response body
-
-// FILE NAME SHIT
-std::string outputFileName = "OutputFile" + filename.substr(filename.length() - 4, 4);
 std::ofstream output_file(outputFileName, std::ios::binary); //// 
     if (!output_file) {
         std::cerr << "Error: Could not create file " << filename << std::endl;
@@ -75,8 +61,6 @@ std::ofstream output_file(outputFileName, std::ios::binary); ////
     bool header_parsed = false;
     std::string response;
 
-    //recv(client_socket, buffer, sizeof(buffer), 0);
-    //printf("\n\nServer says: %s \n", buffer);printf("\n\nServer says: %s \n", buffer);
 
     bool check = true;
 
