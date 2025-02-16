@@ -41,8 +41,6 @@ bool httpServer::start() {
         }
 
         std::cout << "Server started on port: " << port << std::endl;
-        // std::cout << "Server started." << std::endl;
-        // std::cout << "Server ready." << std::endl;
 
         return true;
 }
@@ -55,14 +53,13 @@ void httpServer::run() {
             std::cerr << "Failed to accept connection." << std::endl;
             continue;
         }
-        std::thread(&httpServer::handle_client, this, client_socket_fd).detach();
+        std::thread(&httpServer::handleClient, this, client_socket_fd).detach();
         }
 }
 //Handles the client request
-void httpServer::handle_client(int client_socket_fd) {
+void httpServer::handleClient(int client_socket_fd) {
 
-    //std::cout << client_socket_fd << std::endl;
-
+    
     char buffer[1024]; //Buffer to store incoming request data from the client
     read(client_socket_fd, buffer, sizeof(buffer)); //Read data from the client socket
 
@@ -93,7 +90,6 @@ void httpServer::handle_client(int client_socket_fd) {
 //close the client socket
     close(client_socket_fd);
 }
-
 //Sends an HTTP response to the client
 void httpServer::send_response(int client_socket_fd, const std::string& status, const std::string& content, const std::string& content_type) {
     std::ostringstream response;
@@ -106,6 +102,13 @@ void httpServer::send_response(int client_socket_fd, const std::string& status, 
 
     //Sent the response to the client socket            
     send(client_socket_fd, response.str().c_str(), response.str().size(), 0); 
+}
+void httpServer::sendErrorResponse(int clientSocket, const std::string& status, const std::string& message) {
+    std::ostringstream oss;
+    oss << "<html><body><h1>" << status << "</h1><p>" << message << "</p></body></html>";
+
+    std::string content = oss.str();
+    send_response(clientSocket, status, "text/html", content);
 }
 
 //Destructor

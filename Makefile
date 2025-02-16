@@ -1,24 +1,28 @@
-serverMain: serverMain.o httpServer.o
-	g++ -g -Wall serverMain.o httpServer.o -o serverMain
+CXX = g++
+CXXFLAGS = -g -Wall -pthread -std=c++2a
 
-serverMain.o: serverMain.cpp
-	g++ -g -Wall -c serverMain.cpp -o serverMain.o
+SERVER_OBJS = serverMain.o httpServer.o
+CLIENT_OBJS = clientMain.o httpClient.o
 
-httpServer.o: httpServer.hpp httpServer.cpp
-	g++ -g -Wall -c httpServer.hpp httpServer.cpp
+all: serverMain clientMain
 
-	
+serverMain: $(SERVER_OBJS)
+	$(CXX) $(CXXFLAGS) -o serverMain $(SERVER_OBJS)
 
-clientMain: clientMain.o httpClient.o
-	g++ -g -Wall clientMain.o httpClient.o -o clientMain
+serverMain.o: serverMain.cpp httpServer.hpp
+	$(CXX) $(CXXFLAGS) -c serverMain.cpp
 
-clientMain.o: clientMain.cpp
-	g++ -g -Wall -c clientMain.cpp -o clientMain.o
+httpServer.o: httpServer.cpp httpServer.hpp
+	$(CXX) $(CXXFLAGS) -c httpServer.cpp
 
-httpClient.o: httpClient.hpp httpClient.cpp
-	g++ -g -Wall -c httpClient.hpp httpClient.cpp
+clientMain: $(CLIENT_OBJS)
+	$(CXX) $(CXXFLAGS) -o clientMain $(CLIENT_OBJS)
 
+clientMain.o: clientMain.cpp httpClient.hpp
+	$(CXX) $(CXXFLAGS) -c clientMain.cpp
 
+httpClient.o: httpClient.cpp httpClient.hpp
+	$(CXX) $(CXXFLAGS) -c httpClient.cpp
 
 clean:
-	rm *.o *.gch serverMain clientMain
+	rm -f *.o *.gch serverMain clientMain
