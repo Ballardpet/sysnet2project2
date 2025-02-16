@@ -75,12 +75,17 @@ std::ofstream output_file(outputFileName, std::ios::binary); ////
     bool header_parsed = false;
     std::string response;
 
-    //recv(client_socket, buffer, sizeof(buffer), 0); //////////////
-    //printf("\n\nServer says: %s \n", buffer); /////////
+    //recv(client_socket, buffer, sizeof(buffer), 0);
+    //printf("\n\nServer says: %s \n", buffer);printf("\n\nServer says: %s \n", buffer);
+
+    bool check = true;
 
     while (true) {
         ssize_t bytes_received = recv(client_socket, buffer, sizeof(buffer), 0);
-        //printf("\n\nServer says: %s \n",buffer);
+        if (check){
+            printf("\n\nServer says: %s \n", buffer);
+            check = false;
+        }
         if (bytes_received <= 0) break;
     
             if (!header_parsed) {
