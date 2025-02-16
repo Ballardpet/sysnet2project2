@@ -45,30 +45,42 @@ char buffer[BUFFER_SIZE];
     //bool header_parsed = false;
     //std::string response;
 
+/**
+ * MULTIPLE THINGS:
+ * still output to terminal
+ * have a variable file type
+ * outputfilename = "OutputFile" + last three of request string
+ */
+
+
 // 127.0.0.1
 // 60069
-recv(client_socket, buffer, sizeof(buffer), 0); //////////////
-printf("\n\nServer says: %s \n", buffer); /////////
+//recv(client_socket, buffer, sizeof(buffer), 0); //////////////
+//printf("\n\nServer says: %s \n", buffer); ///////// //////////////////////////////
 
 
-/*
+
 // Open a file to save the response body
-std::ofstream output_file(filename, std::ios::binary);
+
+// FILE NAME SHIT
+std::string outputFileName = "OutputFile" + filename.substr(filename.length() - 4, 4);
+std::ofstream output_file(outputFileName, std::ios::binary); //// 
     if (!output_file) {
         std::cerr << "Error: Could not create file " << filename << std::endl;
         close(client_socket);
         return;
     }
 
-    char buffer[BUFFER_SIZE];
-    //bool header_parsed = false;
-    //std::string response;
+    //char buffer[BUFFER_SIZE];
+    bool header_parsed = false;
+    std::string response;
 
-    recv(client_socket, buffer, sizeof(buffer), 0); //////////////
-    printf("\n\nServer says: %s \n", buffer); /////////
+    //recv(client_socket, buffer, sizeof(buffer), 0); //////////////
+    //printf("\n\nServer says: %s \n", buffer); /////////
 
     while (true) {
         ssize_t bytes_received = recv(client_socket, buffer, sizeof(buffer), 0);
+        //printf("\n\nServer says: %s \n",buffer);
         if (bytes_received <= 0) break;
     
             if (!header_parsed) {
@@ -86,6 +98,6 @@ std::ofstream output_file(filename, std::ios::binary);
 
     std::cout << "File '" << filename << "' downloaded successfully." << std::endl; /////
     output_file.close();
-    */
+    
     close(client_socket);
 }
